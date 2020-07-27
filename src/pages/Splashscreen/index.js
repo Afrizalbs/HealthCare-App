@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ILLogo} from '../../assets';
 
-const Splashscreen = () => {
+const Splashscreen = ({navigation}) => {
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace('GetStarted');
+    }, 3000);
+  }, [navigation]);
   return (
     <View style={styles.page}>
-      <ILLogo width={110} height={110} />
+      <ILLogo width={110} height={120} />
       <Text style={styles.title}>My Dokter</Text>
     </View>
   );
 };
 
-export default Splashscreen;
 const styles = StyleSheet.create({
   page: {
     backgroundColor: 'white',
@@ -21,9 +25,10 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
-    fontWeight: '600',
+    fontFamily: 'Nunito-SemiBold',
     lineHeight: 27,
     color: '#112340',
     marginTop: 20,
   },
 });
+export default Splashscreen;
