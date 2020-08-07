@@ -8,7 +8,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "emulator": "emulator @nexus"
+    "emulator": "emulator @pixel 3 XL"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",

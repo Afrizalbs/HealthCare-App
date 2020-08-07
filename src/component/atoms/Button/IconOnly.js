@@ -11,7 +11,7 @@ const IconOnly = ({onPress, icon}) => {
     if (icon === 'back-light') {
       return <IconBack />;
     }
-    return <IconBack width={30} height={30} />;
+    return <IconBack />;
   };
   return (
     <TouchableOpacity onPress={onPress}>

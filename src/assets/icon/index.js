@@ -8,6 +8,7 @@ import IconMessagesNoActive from './messages_noActive.svg';
 import IconHospitalActive from './hospital_active.svg';
 import IconHospitalNoActive from './hospital_noActive.svg';
 import IconUserOnline from './user_online.svg';
+import IconStar from './star.svg';
 
 export {
   IconBack,
@@ -20,4 +21,5 @@ export {
   IconHospitalActive,
   IconHospitalNoActive,
   IconUserOnline,
+  IconStar,
 };

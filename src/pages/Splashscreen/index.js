@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ILLogo} from '../../assets';
+import {fonts} from '../../utils';
 
 const Splashscreen = ({navigation}) => {
   useEffect(() => {
@@ -10,7 +11,7 @@ const Splashscreen = ({navigation}) => {
   }, [navigation]);
   return (
     <View style={styles.page}>
-      <ILLogo width={110} height={120} />
+      <ILLogo width={86} height={75} />
       <Text style={styles.title}>My Dokter</Text>
     </View>
   );
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 25,
-    fontFamily: 'Nunito-SemiBold',
+    fontSize: 20,
+    fontFamily: fonts.primary[600],
     lineHeight: 27,
     color: '#112340',
     marginTop: 20,

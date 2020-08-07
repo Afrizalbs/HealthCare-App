@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {colors} from '../../../utils';
+import {colors, fonts} from '../../../utils';
 import {Button} from '../../atoms';
 
 export default function Header({title, onPress}) {
@@ -8,22 +8,22 @@ export default function Header({title, onPress}) {
     <View style={styles.container}>
       <Button type="icon-only" icon="back-dark" onPress={onPress} />
       <Text style={styles.text}>{title}</Text>
-      <View style={styles.space(30)} />
+      <View style={styles.space(24)} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 19,
+    paddingHorizontal: 16,
     paddingVertical: 30,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
   },
   text: {
-    fontSize: 30,
-    fontFamily: 'Nunito-Regular',
+    fontSize: 20,
+    fontFamily: fonts.primary[600],
     color: colors.text.default,
     flex: 1,
     textAlign: 'center',

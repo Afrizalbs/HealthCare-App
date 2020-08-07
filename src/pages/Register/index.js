@@ -8,13 +8,13 @@ export default function Register({navigation}) {
       <Header title="Daftar Akun" onPress={() => navigation.goBack()} />
       <View style={styles.content}>
         <Input label="Full Name" />
-        <View style={styles.space(28)} />
+        <View style={styles.space(24)} />
         <Input label="Pekerjaan" />
-        <View style={styles.space(28)} />
+        <View style={styles.space(24)} />
         <Input label="Email Address" />
-        <View style={styles.space(28)} />
+        <View style={styles.space(24)} />
         <Input label="Password" />
-        <View style={styles.space(70)} />
+        <View style={styles.space(40)} />
         <Button
           title="Continue"
           onPress={() => navigation.navigate('UploadPhoto')}
@@ -27,7 +27,7 @@ export default function Register({navigation}) {
 const styles = StyleSheet.create({
   page: {flex: 1, backgroundColor: 'white'},
   content: {
-    padding: 50,
+    padding: 40,
     paddingTop: 0,
     backgroundColor: 'white',
   },

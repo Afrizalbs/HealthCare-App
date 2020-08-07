@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Header, Button, Link} from '../../component';
 import {ILNullProfile, IconAddPhoto} from '../../assets';
-import {colors} from '../../utils';
+import {colors, fonts} from '../../utils';
 
 const UploadPhoto = ({navigation}) => {
   return (
@@ -12,15 +12,15 @@ const UploadPhoto = ({navigation}) => {
         <View style={styles.profile}>
           <View style={styles.wrapper}>
             <Image source={ILNullProfile} style={styles.avatar} />
-            <IconAddPhoto style={styles.add} width={50} height={50} />
+            <IconAddPhoto style={styles.add} width={30} height={30} />
           </View>
           <Text style={styles.name}>wahid dwipa baskoro</Text>
           <Text style={styles.job}>Product Manager</Text>
         </View>
         <View>
           <Button title="Upload and Continue" />
-          <View style={styles.space(40)} />
-          <Link title="Skip for this" align="center" fontsize={22} />
+          <View style={styles.space(30)} />
+          <Link title="Skip for this" align="center" fontsize={16} />
         </View>
       </View>
     </View>
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   content: {
-    padding: 50,
+    padding: 40,
     paddingTop: 0,
     flex: 1,
     backgroundColor: 'white',
@@ -45,37 +45,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   wrapper: {
-    borderWidth: 3,
+    borderWidth: 1,
     borderColor: colors.border.default,
-    width: 170,
-    height: 170,
-    borderRadius: 170 / 2,
+    width: 130,
+    height: 130,
+    borderRadius: 130 / 2,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 36,
+    marginBottom: 26,
   },
   avatar: {
-    width: 150,
-    height: 150,
+    width: 110,
+    height: 110,
   },
   add: {
     position: 'absolute',
-    right: 0,
-    bottom: 5,
+    right: 5,
+    bottom: 7,
   },
   name: {
-    fontSize: 30,
-    fontFamily: 'Nunito-Regular',
+    fontSize: 24,
+    fontFamily: fonts.primary[400],
     textTransform: 'capitalize',
     color: colors.secondary,
     textAlign: 'center',
     marginBottom: 8,
   },
   job: {
-    fontSize: 20,
+    fontSize: 18,
     color: colors.text.disabled,
     textAlign: 'center',
-    fontFamily: 'Nunito-Regular',
+    fontFamily: fonts.primary[400],
   },
   space: (x) => ({
     height: x,

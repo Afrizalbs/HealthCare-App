@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import IconOnly from './IconOnly';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {fonts} from '../../../utils';
 
 const Button = ({type, title, onPress, icon}) => {
   if (type === 'icon-only') {
@@ -16,7 +17,7 @@ const Button = ({type, title, onPress, icon}) => {
 
 const styles = StyleSheet.create({
   wrapper: (type) => ({
-    height: 65,
+    height: 45,
     backgroundColor: type === 'secondary' ? '#FFF' : '#0BCAD4',
     borderRadius: 10,
     alignItems: 'center',
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   }),
   text: (type) => ({
-    fontSize: 25,
-    fontFamily: 'Nunito-SemiBold',
+    fontSize: 18,
+    fontFamily: fonts.primary[600],
     color: type === 'secondary' ? '#112340' : '#FFFFFF',
   }),
 });

@@ -2,12 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, View, ImageBackground} from 'react-native';
 import {ILLogo, ILGetStarted} from '../../assets';
 import {Button} from '../../component';
+import {fonts} from '../../utils';
 
 const GetStarted = ({navigation}) => {
   return (
     <ImageBackground source={ILGetStarted} style={styles.page}>
       <View>
-        <ILLogo width={110} height={120} />
+        <ILLogo width={86} height={75} />
         <Text style={styles.title}>
           Konsultasi dengan dokter jadi lebih mudah & fleksibel
         </Text>
@@ -17,7 +18,7 @@ const GetStarted = ({navigation}) => {
           title="Get Started"
           onPress={() => navigation.navigate('Register')}
         />
-        <View style={styles.gap(20)} />
+        <View style={styles.gap(16)} />
         <Button
           type="secondary"
           title="Sign In"
@@ -30,14 +31,14 @@ const GetStarted = ({navigation}) => {
 
 const styles = StyleSheet.create({
   page: {
-    padding: 50,
+    padding: 40,
     backgroundColor: 'white',
     flex: 1,
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: 35,
-    fontFamily: 'Nunito-SemiBold',
+    fontSize: 28,
+    fontFamily: fonts.primary[600],
     marginTop: 91,
     color: '#FFF',
   },
