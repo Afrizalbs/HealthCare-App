@@ -1,19 +1,19 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {DummyDoctor3} from '../../../assets';
 import {fonts, colors} from '../../../utils';
+import {IconNext} from '../../../assets';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const ListChat = () => {
+const ListChat = ({imgProfile, doctorName, lastMessages, type, onPress}) => {
   return (
-    <View style={styles.container}>
-      <Image source={DummyDoctor3} style={styles.avatar} />
-      <View>
-        <Text style={styles.name}>Alexander Jannie</Text>
-        <Text style={styles.chat}>
-          Baik bu, terima kasih banyak atas wakt...{' '}
-        </Text>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <Image source={imgProfile} style={styles.avatar} />
+      <View style={styles.textWrapper}>
+        <Text style={styles.name}>{doctorName}</Text>
+        <Text style={styles.chat}>{lastMessages}</Text>
       </View>
-    </View>
+      {type === 'list-doctor' && <IconNext />}
+    </TouchableOpacity>
   );
 };
 
@@ -26,13 +26,17 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderColor: '#EEEEEE',
+    borderColor: colors.border.default,
+    justifyContent: 'space-between',
   },
   avatar: {
     height: 46,
     width: 46,
     borderRadius: 46 / 2,
     marginRight: 12,
+  },
+  textWrapper: {
+    flex: 1,
   },
   name: {
     fontSize: 16,

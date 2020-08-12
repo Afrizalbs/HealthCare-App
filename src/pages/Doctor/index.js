@@ -2,8 +2,9 @@ import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {Profile, Categoris, TopRated, News} from '../../component';
 import {colors, fonts} from '../../utils';
+import {JSONCategoryDoctor} from '../../assets';
 
-export default function Doctor() {
+export default function Doctor({navigation}) {
   return (
     <View style={styles.page}>
       <View style={styles.content}>
@@ -21,10 +22,15 @@ export default function Doctor() {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <View style={styles.gap(32)} />
-                <Categoris title="dokter umum" />
-                <Categoris title="dokter umum" />
-                <Categoris title="dokter umum" />
-                <Categoris title="dokter umum" />
+                {JSONCategoryDoctor.data.map((listDoctorCategory) => {
+                  return (
+                    <Categoris
+                      key={listDoctorCategory.id}
+                      category={listDoctorCategory.category}
+                      onPress={() => navigation.navigate('ListDoctor')}
+                    />
+                  );
+                })}
                 <View style={styles.gap(22)} />
               </View>
             </ScrollView>

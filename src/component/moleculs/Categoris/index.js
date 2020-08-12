@@ -1,15 +1,31 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {colors, fonts} from '../../../utils';
-import {ILDocUmum} from '../../../assets';
+import {ILDocUmum, ILPsikiater, ILDocObat, ILDocAnak} from '../../../assets';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Categoris = ({title}) => {
+const Categoris = ({category, onPress}) => {
+  const Icon = () => {
+    if (category === 'dokter umum') {
+      return <ILDocUmum style={styles.illustrasion} width={46} height={46} />;
+    }
+    if (category === 'psikiater') {
+      return <ILPsikiater style={styles.illustrasion} width={46} height={46} />;
+    }
+    if (category === 'dokter obat') {
+      return <ILDocObat style={styles.illustrasion} width={46} height={46} />;
+    }
+    if (category === 'dokter anak') {
+      return <ILDocAnak style={styles.illustrasion} width={46} height={46} />;
+    }
+    return <ILDocUmum style={styles.illustrasion} width={46} height={46} />;
+  };
   return (
-    <View style={styles.wrapper}>
-      <ILDocUmum style={styles.illustrasion} width={46} height={46} />
+    <TouchableOpacity style={styles.wrapper} onPress={onPress}>
+      <Icon />
       <Text style={styles.text1}>Saya butuh</Text>
-      <Text style={styles.text2}>{title}</Text>
-    </View>
+      <Text style={styles.text2}>{category}</Text>
+    </TouchableOpacity>
   );
 };
 
