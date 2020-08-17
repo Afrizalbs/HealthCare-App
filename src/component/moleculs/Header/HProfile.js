@@ -4,10 +4,10 @@ import {colors, fonts} from '../../../utils';
 import {DummyDoctor5} from '../../../assets';
 import {Button} from '../../atoms';
 
-const HProfile = () => {
+const HProfile = ({onPress}) => {
   return (
     <View style={styles.container}>
-      <Button type="icon-only" icon="back-light" />
+      <Button type="icon-only" icon="back-light" onPress={onPress} />
       <View style={styles.wrapper}>
         <Text style={styles.name}>Lana Rhoades</Text>
         <Text style={styles.desc}>Dokter Anak</Text>

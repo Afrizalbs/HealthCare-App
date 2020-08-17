@@ -19,7 +19,12 @@ const Login = ({navigation}) => {
       <View style={styles.space(40)} />
       <Button title="Sign In" onPress={() => navigation.replace('MainApp')} />
       <View style={styles.space(30)} />
-      <Link title="Create New Account" fontsize={16} align="center" />
+      <Link
+        title="Create New Account"
+        fontsize={16}
+        align="center"
+        onPress={() => navigation.navigate('Register')}
+      />
     </View>
   );
 };

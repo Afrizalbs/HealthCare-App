@@ -6,7 +6,7 @@ import HProfile from './HProfile';
 
 export default function Header({title, onPress, type}) {
   if (type === 'HeaderProfile') {
-    return <HProfile />;
+    return <HProfile onPress={onPress} />;
   }
   return (
     <View style={styles.container(type)}>

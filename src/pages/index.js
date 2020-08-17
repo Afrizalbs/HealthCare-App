@@ -8,6 +8,9 @@ import Messages from './Messages';
 import Doctor from './Doctor';
 import ListDoctor from './ListDoctor';
 import Chatting from './Chatting';
+import UserProfile from './UserProfile';
+import UpdateProfile from './UpdateProfile';
+import DoctorProfile from './DoctorProfile';
 
 export {
   Splashscreen,
@@ -20,4 +23,7 @@ export {
   Doctor,
   ListDoctor,
   Chatting,
+  UserProfile,
+  UpdateProfile,
+  DoctorProfile,
 };

@@ -4,10 +4,12 @@ import Profile from './Profile';
 import Categoris from './Categoris';
 import TopRated from './TopRated';
 import News from './News';
-import ListChat from './ListChat';
+import List from './List';
 import ListHospital from './ListHospital';
 import InputChat from './InputChat';
 import BubbleChat from './BubbleChat';
+import MainProfile from './MainProfile';
+import ProfileItem from './ProfileItem';
 
 export {
   Header,
@@ -16,8 +18,10 @@ export {
   Categoris,
   TopRated,
   News,
-  ListChat,
+  List,
   ListHospital,
   InputChat,
   BubbleChat,
+  MainProfile,
+  ProfileItem,
 };

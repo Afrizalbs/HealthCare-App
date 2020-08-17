@@ -2,7 +2,12 @@ import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {Profile, Categoris, TopRated, News} from '../../component';
 import {colors, fonts} from '../../utils';
-import {JSONCategoryDoctor} from '../../assets';
+import {
+  JSONCategoryDoctor,
+  DummyDoctor1,
+  DummyDoctor2,
+  DummyDoctor3,
+} from '../../assets';
 
 export default function Doctor({navigation}) {
   return (
@@ -11,7 +16,7 @@ export default function Doctor({navigation}) {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.space(30)} />
           <View style={styles.wrapperSection}>
-            <Profile />
+            <Profile onPress={() => navigation.navigate('UserProfile')} />
             <View style={styles.space(30)} />
             <Text style={styles.label}>
               Mau konsultasi dengan siapa hari ini?
@@ -39,9 +44,24 @@ export default function Doctor({navigation}) {
           <View style={styles.wrapperSection}>
             <Text style={styles.label2}>Top Rated Doctor</Text>
             <View style={styles.space(16)} />
-            <TopRated />
-            <TopRated />
-            <TopRated />
+            <TopRated
+              name="Alex Rachel"
+              desc="Pedriactician"
+              profilePicture={DummyDoctor1}
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
+            <TopRated
+              name="Sunny Frank"
+              desc="Dentist"
+              profilePicture={DummyDoctor2}
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
+            <TopRated
+              name="Naomi Swan"
+              desc="Chiropractic"
+              profilePicture={DummyDoctor3}
+              onPress={() => navigation.navigate('DoctorProfile')}
+            />
             <View style={styles.space(20)} />
             <Text style={styles.label2}>Today News</Text>
           </View>

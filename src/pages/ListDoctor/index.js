@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Header, ListChat} from '../../component';
+import {Header, List} from '../../component';
 import {DummyDoctor5} from '../../assets';
 
 const ListDoctor = ({navigation}) => {
@@ -12,23 +12,23 @@ const ListDoctor = ({navigation}) => {
         onPress={() => navigation.goBack()}
       />
       <View style={styles.content}>
-        <ListChat
+        <List
           imgProfile={DummyDoctor5}
           doctorName="Lana Rhoades"
-          lastMessages="Wanita"
+          description="Wanita"
           type="list-doctor"
           onPress={() => navigation.navigate('Chatting')}
         />
-        <ListChat
+        <List
           imgProfile={DummyDoctor5}
           doctorName="Lana Rhoades"
-          lastMessages="Wanita"
+          description="Wanita"
           type="list-doctor"
         />
-        <ListChat
+        <List
           imgProfile={DummyDoctor5}
           doctorName="Lana Rhoades"
-          lastMessages="Wanita"
+          description="Wanita"
           type="list-doctor"
         />
       </View>

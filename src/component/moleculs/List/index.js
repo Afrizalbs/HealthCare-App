@@ -1,23 +1,44 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {fonts, colors} from '../../../utils';
-import {IconNext} from '../../../assets';
+import {
+  IconNext,
+  IconEditProfile,
+  IconLanguage,
+  IconGiveUsRate,
+  IconHelp,
+} from '../../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const ListChat = ({imgProfile, doctorName, lastMessages, type, onPress}) => {
+const List = ({imgProfile, doctorName, description, type, onPress, icon}) => {
+  const Icon = () => {
+    if (icon === 'edit-profile') {
+      return <IconEditProfile />;
+    }
+    if (icon === 'language') {
+      return <IconLanguage />;
+    }
+    if (icon === 'give-rate') {
+      return <IconGiveUsRate />;
+    }
+    if (icon === 'help') {
+      return <IconHelp />;
+    }
+    return <IconEditProfile />;
+  };
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image source={imgProfile} style={styles.avatar} />
+      {icon ? <Icon /> : <Image source={imgProfile} style={styles.avatar} />}
       <View style={styles.textWrapper}>
         <Text style={styles.name}>{doctorName}</Text>
-        <Text style={styles.chat}>{lastMessages}</Text>
+        <Text style={styles.desc}>{description}</Text>
       </View>
       {type === 'list-doctor' && <IconNext />}
     </TouchableOpacity>
   );
 };
 
-export default ListChat;
+export default List;
 
 const styles = StyleSheet.create({
   container: {
@@ -33,10 +54,10 @@ const styles = StyleSheet.create({
     height: 46,
     width: 46,
     borderRadius: 46 / 2,
-    marginRight: 12,
   },
   textWrapper: {
     flex: 1,
+    marginLeft: 16,
   },
   name: {
     fontSize: 16,
@@ -44,7 +65,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     marginBottom: 4,
   },
-  chat: {
+  desc: {
     fontSize: 12,
     fontFamily: fonts.primary[300],
     color: colors.text.disabled,

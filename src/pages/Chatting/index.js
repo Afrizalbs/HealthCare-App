@@ -3,10 +3,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import {Header, BubbleChat, InputChat} from '../../component';
 import {fonts, colors} from '../../utils';
 
-const Chatting = () => {
+const Chatting = ({navigation}) => {
   return (
     <View style={styles.page}>
-      <Header type="HeaderProfile" />
+      <Header type="HeaderProfile" onPress={() => navigation.goBack()} />
       <View style={styles.content}>
         <Text style={styles.date}>Senin, 21 Maret, 2020</Text>
         <BubbleChat IsUser />

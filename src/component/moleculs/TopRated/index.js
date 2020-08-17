@@ -1,18 +1,18 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {DummyDoctor1, IconUserOnline, IconStar} from '../../../assets';
+import {IconStar} from '../../../assets';
 import {fonts, colors} from '../../../utils';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const TopRated = () => {
+const TopRated = ({name, desc, onPress, profilePicture}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.avatarWrapper}>
-        <Image source={DummyDoctor1} style={styles.avatar} />
-        {/* <IconUserOnline width={20} height={20} style={styles.indicator} /> */}
+        <Image source={profilePicture} style={styles.avatar} />
       </View>
       <View style={styles.textWrapper}>
-        <Text style={styles.name}>Afrizal Bagas</Text>
-        <Text style={styles.jobName}>Fake Doctor</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.jobName}>{desc}</Text>
       </View>
       <View style={styles.star}>
         <IconStar />
@@ -21,7 +21,7 @@ const TopRated = () => {
         <IconStar />
         <IconStar />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   avatar: {
     height: 46,
     width: 46,
+    borderRadius: 46 / 2,
     marginRight: 15,
   },
   avatarWrapper: {

@@ -1,28 +1,28 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {ListChat} from '../../component';
+import {List} from '../../component';
 import {colors, fonts} from '../../utils';
 import {DummyDoctor1, DummyDoctor2, DummyDoctor3} from '../../assets';
 
-export default function Messages() {
+const Messages = ({navigation}) => {
   const [doctors] = useState([
     {
       id: 1,
       imgProfile: DummyDoctor1,
       doctorName: 'Nikita Marzani',
-      lastMessages: 'Baik ibu, terima kasih banyak atas wakt...',
+      description: 'Baik ibu, terima kasih banyak atas wakt...',
     },
     {
       id: 2,
       imgProfile: DummyDoctor2,
       doctorName: 'Zulfikar Pradana',
-      lastMessages: 'Oh tentu saja tidak karena jeruk it...',
+      description: 'Oh tentu saja tidak karena jeruk it...',
     },
     {
       id: 3,
       imgProfile: DummyDoctor3,
       doctorName: 'Monique Alexandre',
-      lastMessages: 'Oke menurut bu dokter bagaimana unt...',
+      description: 'Oke menurut bu dokter bagaimana unt...',
     },
   ]);
   return (
@@ -31,19 +31,20 @@ export default function Messages() {
         <Text style={styles.title}>Messages</Text>
         {doctors.map((chatKonsultasi) => {
           return (
-            <ListChat
+            <List
               key={chatKonsultasi.id}
               imgProfile={chatKonsultasi.imgProfile}
               doctorName={chatKonsultasi.doctorName}
-              lastMessages={chatKonsultasi.lastMessages}
+              description={chatKonsultasi.description}
+              onPress={() => navigation.navigate('Chatting')}
             />
           );
         })}
       </View>
     </View>
   );
-}
-
+};
+export default Messages;
 const styles = StyleSheet.create({
   page: {backgroundColor: colors.secondary, flex: 1},
   content: {

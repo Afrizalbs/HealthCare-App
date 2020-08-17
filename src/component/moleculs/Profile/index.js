@@ -2,16 +2,17 @@ import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {DummyUser} from '../../../assets';
 import {colors, fonts} from '../../../utils';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const Profile = () => {
+const Profile = ({onPress}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={DummyUser} style={styles.avatar} />
       <View style={styles.wrapper}>
-        <Text style={styles.name}>Wahid Dwipa Baskoro</Text>
+        <Text style={styles.name}>Wahid Dwipa </Text>
         <Text style={styles.jobName}>Product Manager</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     alignItems: 'center',
-    maxWidth: 276,
+    maxWidth: '70%',
   },
   avatar: {
     width: 47,
