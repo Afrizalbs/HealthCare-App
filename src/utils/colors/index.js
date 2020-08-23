@@ -23,6 +23,7 @@ export const colors = {
   },
   border: {
     default: mainColors.grey2,
+    onFocus: mainColors.blue1,
   },
   card: {
     bgDefault: mainColors.green2,
