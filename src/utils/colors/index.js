@@ -8,6 +8,8 @@ const mainColors = {
   grey3: '#8092AF',
   grey4: '#EDEEF0',
   blue1: '#0066CB',
+  black1: 'rgba(0,0,0,0.5)',
+  red1: '#E06379',
 };
 
 export const colors = {
@@ -35,4 +37,6 @@ export const colors = {
     sendActive: mainColors.blue1,
     sendDisable: mainColors.grey4,
   },
+  loadingBackground: mainColors.black1,
+  error: mainColors.red1,
 };

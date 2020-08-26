@@ -10,6 +10,7 @@ import InputChat from './InputChat';
 import BubbleChat from './BubbleChat';
 import MainProfile from './MainProfile';
 import ProfileItem from './ProfileItem';
+import Loading from './Loading';
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   BubbleChat,
   MainProfile,
   ProfileItem,
+  Loading,
 };
