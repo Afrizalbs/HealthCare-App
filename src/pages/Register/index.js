@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Header, Input, Button, Loading} from '../../component';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useForm, colors} from '../../utils';
+import {useForm, colors, storeData} from '../../utils';
 import {FireBase} from '../../config';
-import {showMessage, hideMessage} from 'react-native-flash-message';
+import {showMessage} from 'react-native-flash-message';
 
 export default function Register({navigation}) {
   // Custom useState for handle register form
@@ -18,6 +18,7 @@ export default function Register({navigation}) {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = () => {
+    console.log(form);
     // Firebase auth
     setLoading(true);
     FireBase.auth()
@@ -25,6 +26,20 @@ export default function Register({navigation}) {
       .then((success) => {
         setLoading(false);
         setForm('reset');
+        // mengirim database user di firebase
+        const data = {
+          fullName: form.fullName,
+          pekerjaan: form.pekerjaan,
+          email: form.email,
+        };
+        FireBase.database()
+          .ref('users/' + success.user.uid + '/')
+          .set(data);
+
+        // mengirim data user ke localstorage device
+        storeData('user', data);
+        // mengarahkan ke halaman upload photo
+        navigation.navigate('UploadPhoto');
         console.log('Register sukses: ', success);
       })
       .catch((error) => {
@@ -40,8 +55,6 @@ export default function Register({navigation}) {
         });
         console.log('Register gagal: ', errorMessage);
       });
-    console.log(form);
-    // () => navigation.navigate('UploadPhoto')
   };
 
   return (

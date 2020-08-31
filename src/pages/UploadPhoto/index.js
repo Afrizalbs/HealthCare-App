@@ -1,24 +1,55 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Header, Button, Link} from '../../component';
-import {ILNullProfile, IconAddPhoto} from '../../assets';
+import {ILNullProfile, IconAddPhoto, IconDelPhoto} from '../../assets';
 import {colors, fonts} from '../../utils';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import ImagePicker from 'react-native-image-picker';
+import {showMessage} from 'react-native-flash-message';
 
 const UploadPhoto = ({navigation}) => {
+  const [hasPhoto, setHasPhoto] = useState(false);
+  const [photo, setPhoto] = useState(ILNullProfile);
+  const getImage = () => {
+    // Open Image Library:
+    ImagePicker.launchImageLibrary({}, (response) => {
+      // Same code as in above section!
+      console.log('response: ', response);
+      if (response.didCancel || response.error) {
+        showMessage({
+          message: 'Masukan Photo untuk melanjutkan',
+          type: 'default',
+          backgroundColor: colors.error, // background color
+          color: 'white', // text color
+        });
+      } else {
+        const source = {uri: response.uri};
+        setPhoto(source);
+        setHasPhoto(true);
+      }
+    });
+  };
   return (
     <View style={styles.page}>
       <Header title="Upload Photo" onPress={() => navigation.goBack()} />
       <View style={styles.content}>
         <View style={styles.profile}>
-          <View style={styles.wrapper}>
-            <Image source={ILNullProfile} style={styles.avatar} />
-            <IconAddPhoto style={styles.add} width={30} height={30} />
-          </View>
+          <TouchableOpacity style={styles.wrapper} onPress={getImage}>
+            <Image source={photo} style={styles.avatar} />
+            {hasPhoto && (
+              <IconDelPhoto style={styles.add} width={30} height={30} />
+            )}
+            {!hasPhoto && (
+              <IconAddPhoto style={styles.add} width={30} height={30} />
+            )}
+          </TouchableOpacity>
+
           <Text style={styles.name}>wahid dwipa baskoro</Text>
           <Text style={styles.job}>Product Manager</Text>
         </View>
         <View>
           <Button
+            disable={!hasPhoto}
             title="Upload and Continue"
             onPress={() => navigation.replace('MainApp')}
           />
@@ -65,6 +96,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 110,
     height: 110,
+    borderRadius: 110 / 2,
   },
   add: {
     position: 'absolute',
