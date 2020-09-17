@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {Profile, Categoris, TopRated, News} from '../../component';
-import {colors, fonts} from '../../utils';
+import {colors, fonts, getData} from '../../utils';
 import {
   JSONCategoryDoctor,
   DummyDoctor1,
@@ -10,6 +10,11 @@ import {
 } from '../../assets';
 
 export default function Doctor({navigation}) {
+  useEffect(() => {
+    getData('user').then((result) => {
+      console.log('data user: ', result);
+    });
+  }, []);
   return (
     <View style={styles.page}>
       <View style={styles.content}>

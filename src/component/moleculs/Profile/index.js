@@ -1,16 +1,30 @@
-import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {DummyUser} from '../../../assets';
-import {colors, fonts} from '../../../utils';
+import React, {useEffect, useState} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ILNullProfile} from '../../../assets';
+import {colors, fonts, getData} from '../../../utils';
 
 const Profile = ({onPress}) => {
+  const [profile, setProfile] = useState({
+    photo: ILNullProfile,
+    fullName: '',
+    pekerjaan: '',
+  });
+  useEffect(() => {
+    getData('user').then((response) => {
+      // console.log('data user: ', response);
+      const data = response;
+      data.photo = {uri: response.photo};
+      console.log('new profile: ', data);
+      setProfile(response);
+    });
+  }, []);
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Image source={DummyUser} style={styles.avatar} />
+      <Image source={profile.photo} style={styles.avatar} />
       <View style={styles.wrapper}>
-        <Text style={styles.name}>Wahid Dwipa </Text>
-        <Text style={styles.jobName}>Product Manager</Text>
+        <Text style={styles.name}>{profile.fullName} </Text>
+        <Text style={styles.jobName}>{profile.pekerjaan}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -38,10 +52,12 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     color: colors.secondary,
     fontFamily: fonts.primary[600],
+    textTransform: 'capitalize',
   },
   jobName: {
     fontSize: 12,
     color: colors.text.disabled,
     fontFamily: fonts.primary[400],
+    textTransform: 'capitalize',
   },
 });

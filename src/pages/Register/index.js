@@ -31,6 +31,7 @@ export default function Register({navigation}) {
           fullName: form.fullName,
           pekerjaan: form.pekerjaan,
           email: form.email,
+          uid: success.user.uid,
         };
         FireBase.database()
           .ref('users/' + success.user.uid + '/')
@@ -39,7 +40,7 @@ export default function Register({navigation}) {
         // mengirim data user ke localstorage device
         storeData('user', data);
         // mengarahkan ke halaman upload photo
-        navigation.navigate('UploadPhoto');
+        navigation.navigate('UploadPhoto', data);
         console.log('Register sukses: ', success);
       })
       .catch((error) => {

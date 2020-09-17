@@ -2,32 +2,52 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text} from 'react-native';
 import {Header, Button, Link} from '../../component';
 import {ILNullProfile, IconAddPhoto, IconDelPhoto} from '../../assets';
-import {colors, fonts} from '../../utils';
+import {colors, fonts, storeData} from '../../utils';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
 import {showMessage} from 'react-native-flash-message';
+import {FireBase} from '../../config';
 
-const UploadPhoto = ({navigation}) => {
+const UploadPhoto = ({navigation, route}) => {
+  const {fullName, pekerjaan, uid} = route.params;
+  const [photoForDB, setPhotoForDB] = useState('');
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photo, setPhoto] = useState(ILNullProfile);
   const getImage = () => {
     // Open Image Library:
-    ImagePicker.launchImageLibrary({}, (response) => {
-      // Same code as in above section!
-      console.log('response: ', response);
-      if (response.didCancel || response.error) {
-        showMessage({
-          message: 'Masukan Photo untuk melanjutkan',
-          type: 'default',
-          backgroundColor: colors.error, // background color
-          color: 'white', // text color
-        });
-      } else {
-        const source = {uri: response.uri};
-        setPhoto(source);
-        setHasPhoto(true);
-      }
-    });
+    ImagePicker.launchImageLibrary(
+      {quality: 0.5, maxHeight: 300, maxWidth: 300},
+      (response) => {
+        // Same code as in above section!
+        console.log('response: ', response);
+        if (response.didCancel || response.error) {
+          showMessage({
+            message: 'Masukan Photo untuk melanjutkan',
+            type: 'default',
+            backgroundColor: colors.error, // background color
+            color: 'white', // text color
+          });
+        } else {
+          setPhotoForDB(`data:${response.type};base64, ${response.data}`); //mengambil data gambar untuk db
+          const source = {uri: response.uri};
+          setPhoto(source);
+          setHasPhoto(true);
+        }
+      },
+    );
+  };
+
+  const uploadAndContinue = () => {
+    FireBase.database()
+      .ref('users/' + uid + '/')
+      .update({photo: photoForDB});
+
+    const data = route.params;
+    data.photo = photoForDB;
+
+    storeData('user', data);
+
+    navigation.replace('MainApp');
   };
   return (
     <View style={styles.page}>
@@ -44,14 +64,14 @@ const UploadPhoto = ({navigation}) => {
             )}
           </TouchableOpacity>
 
-          <Text style={styles.name}>wahid dwipa baskoro</Text>
-          <Text style={styles.job}>Product Manager</Text>
+          <Text style={styles.name}>{fullName}</Text>
+          <Text style={styles.job}>{pekerjaan}</Text>
         </View>
         <View>
           <Button
             disable={!hasPhoto}
             title="Upload and Continue"
-            onPress={() => navigation.replace('MainApp')}
+            onPress={uploadAndContinue}
           />
           <View style={styles.space(30)} />
           <Link
