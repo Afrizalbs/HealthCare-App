@@ -1,15 +1,26 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {DummyUser, IconDelPhoto} from '../../../assets';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {IconDelPhoto} from '../../../assets';
 import {colors, fonts} from '../../../utils';
 
-const MainProfile = ({name, desc}) => {
+const MainProfile = ({name, desc, photo, isRemove, onPress}) => {
   return (
     <View style={styles.container}>
-      <View style={styles.avatarWrapper}>
-        <Image source={DummyUser} style={styles.avatar} />
-        <IconDelPhoto style={styles.deletePhoto} height={30} width={30} />
-      </View>
+      {!isRemove && (
+        <View style={styles.avatarWrapper}>
+          <Image source={photo} style={styles.avatar} />
+        </View>
+      )}
+
+      {isRemove && (
+        <TouchableOpacity style={styles.avatarWrapper} onPress={onPress}>
+          <Image source={photo} style={styles.avatar} />
+          {isRemove && (
+            <IconDelPhoto style={styles.deletePhoto} height={30} width={30} />
+          )}
+        </TouchableOpacity>
+      )}
       {name && (
         <View>
           <Text style={styles.name}>{name}</Text>
@@ -38,9 +49,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   avatar: {
-    width: 110,
-    height: 110,
-    borderRadius: 110 / 2,
+    width: 120,
+    height: 120,
+    borderRadius: 120 / 2,
   },
   name: {
     fontFamily: fonts.primary[600],

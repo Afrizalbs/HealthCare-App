@@ -1,12 +1,20 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ILLogo} from '../../assets';
+import {FireBase} from '../../config';
 import {fonts} from '../../utils';
 
 const Splashscreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      navigation.replace('GetStarted');
+      FireBase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.log(user);
+          navigation.replace('MainApp');
+        } else {
+          navigation.replace('GetStarted');
+        }
+      });
     }, 3000);
   }, [navigation]);
   return (
