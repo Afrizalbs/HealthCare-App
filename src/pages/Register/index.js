@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Header, Input, Button, Loading} from '../../component';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useForm, colors, storeData} from '../../utils';
+import {Button, Header, Input, Loading} from '../../component';
 import {FireBase} from '../../config';
-import {showMessage} from 'react-native-flash-message';
+import {showErrorMessage, storeData, useForm} from '../../utils';
 
 export default function Register({navigation}) {
   // Custom useState for handle register form
@@ -18,7 +17,6 @@ export default function Register({navigation}) {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = () => {
-    console.log(form);
     // Firebase auth
     setLoading(true);
     FireBase.auth()
@@ -41,20 +39,12 @@ export default function Register({navigation}) {
         storeData('user', data);
         // mengarahkan ke halaman upload photo
         navigation.navigate('UploadPhoto', data);
-        console.log('Register sukses: ', success);
       })
       .catch((error) => {
         // Handle Errors here.
         const errorMessage = error.message;
         setLoading(false);
-        showMessage({
-          message: 'Upss!!',
-          description: errorMessage,
-          type: 'default',
-          backgroundColor: colors.error, // background color
-          color: 'white', // text color
-        });
-        console.log('Register gagal: ', errorMessage);
+        showErrorMessage(errorMessage);
       });
   };
 

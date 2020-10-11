@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
 import {ILLogo} from '../../assets';
-import {Input, Link, Button, Loading} from '../../component';
+import {Button, Input, Link} from '../../component';
 import {FireBase} from '../../config';
-import {colors, fonts, storeData, useForm} from '../../utils';
+import {fonts, showErrorMessage, storeData, useForm} from '../../utils';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -13,22 +13,19 @@ const Login = ({navigation}) => {
     password: '',
   });
 
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const login = () => {
-    // console.log('isinya adalah: ', form);
-    setLoading(true);
+    dispatch({type: 'SET_LOADING', value: true});
     FireBase.auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then((success) => {
-        setLoading(false);
-        console.log('login sukses: ', success);
+        dispatch({type: 'SET_LOADING', value: false});
 
         FireBase.database()
           .ref(`users/${success.user.uid}/`)
           .once('value')
           .then((resDB) => {
-            console.log('data user: ', resDB.val());
             if (resDB.val()) {
               storeData('user', resDB.val());
               navigation.replace('MainApp');
@@ -36,14 +33,8 @@ const Login = ({navigation}) => {
           });
       })
       .catch((error) => {
-        console.log('login error: ', error);
-        setLoading(false);
-        showMessage({
-          message: error.message,
-          type: 'default',
-          backgroundColor: colors.error, // background color
-          color: 'white', // text color
-        });
+        dispatch({type: 'SET_LOADING', value: false});
+        showErrorMessage(error.message);
       });
   };
   return (
@@ -80,7 +71,6 @@ const Login = ({navigation}) => {
           />
         </ScrollView>
       </View>
-      {loading && <Loading />}
     </>
   );
 };

@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
-import {Header, Button, Link} from '../../component';
-import {ILNullProfile, IconAddPhoto, IconDelPhoto} from '../../assets';
-import {colors, fonts, storeData} from '../../utils';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import ImagePicker from 'react-native-image-picker';
-import {showMessage} from 'react-native-flash-message';
+import {IconAddPhoto, IconDelPhoto, ILNullProfile} from '../../assets';
+import {Button, Header, Link} from '../../component';
 import {FireBase} from '../../config';
+import {colors, fonts, showErrorMessage, storeData} from '../../utils';
 
 const UploadPhoto = ({navigation, route}) => {
   const {fullName, pekerjaan, uid} = route.params;
@@ -19,14 +18,10 @@ const UploadPhoto = ({navigation, route}) => {
       {quality: 0.5, maxHeight: 300, maxWidth: 300},
       (response) => {
         // Same code as in above section!
-        console.log('response: ', response);
         if (response.didCancel || response.error) {
-          showMessage({
-            message: 'Masukan Photo untuk melanjutkan',
-            type: 'default',
-            backgroundColor: colors.error, // background color
-            color: 'white', // text color
-          });
+          showErrorMessage(
+            'Ups!!, Anda sepertinya tidak jadi mengganti foto ya',
+          );
         } else {
           setPhotoForDB(`data:${response.type};base64, ${response.data}`); //mengambil data gambar untuk db
           const source = {uri: response.uri};

@@ -6,16 +6,17 @@ import {fonts} from '../../utils';
 
 const Splashscreen = ({navigation}) => {
   useEffect(() => {
-    setTimeout(() => {
-      FireBase.auth().onAuthStateChanged((user) => {
+    const session = FireBase.auth().onAuthStateChanged((user) => {
+      setTimeout(() => {
         if (user) {
           console.log(user);
           navigation.replace('MainApp');
         } else {
           navigation.replace('GetStarted');
         }
-      });
-    }, 3000);
+      }, 3000);
+    });
+    return () => session();
   }, [navigation]);
   return (
     <View style={styles.page}>
