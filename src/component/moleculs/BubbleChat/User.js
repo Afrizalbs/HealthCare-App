@@ -2,15 +2,13 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {colors, fonts} from '../../../utils';
 
-const User = () => {
+const User = ({message, timeSend}) => {
   return (
     <View style={styles.container}>
       <View style={styles.chatWrapper}>
-        <Text style={styles.desc}>
-          Ibu dokter, apakah memakan jeruk tiap hari itu buruk?
-        </Text>
+        <Text style={styles.desc}>{message}</Text>
       </View>
-      <Text style={styles.date}>4.45 AM</Text>
+      <Text style={styles.date}>{timeSend}</Text>
     </View>
   );
 };

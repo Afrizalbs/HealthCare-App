@@ -15,7 +15,6 @@ const Profile = ({onPress}) => {
       // console.log('data user: ', response);
       const data = response;
       data.photo = {uri: response.photo};
-      console.log('new profile: ', data);
       setProfile(response);
     });
   }, []);

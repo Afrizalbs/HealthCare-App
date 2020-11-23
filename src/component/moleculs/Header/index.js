@@ -4,9 +4,9 @@ import {colors, fonts} from '../../../utils';
 import {Button} from '../../atoms';
 import HProfile from './HProfile';
 
-export default function Header({title, onPress, type}) {
+export default function Header({title, onPress, type, name, desc, photo}) {
   if (type === 'HeaderProfile') {
-    return <HProfile onPress={onPress} />;
+    return <HProfile onPress={onPress} name={name} desc={desc} photo={photo} />;
   }
   return (
     <View style={styles.container(type)}>
@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     color: type === 'dark' ? 'white' : colors.text.default,
     flex: 1,
     textAlign: 'center',
+    textTransform: 'capitalize',
   }),
   space: (x) => ({
     width: x,

@@ -1,14 +1,21 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {IconSendDisable, IconSendLight} from '../../../assets';
 import {colors} from '../../../utils';
 
-const BtnSend = ({disable}) => {
+const BtnSend = ({disable, onPress}) => {
+  if (disable) {
+    return (
+      <View style={styles.container(disable)}>
+        <IconSendDisable />
+      </View>
+    );
+  }
   return (
-    <View style={styles.container(disable)}>
-      {disable && <IconSendDisable />}
-      {!disable && <IconSendLight />}
-    </View>
+    <TouchableOpacity style={styles.container(disable)} onPress={onPress}>
+      <IconSendLight />
+    </TouchableOpacity>
   );
 };
 

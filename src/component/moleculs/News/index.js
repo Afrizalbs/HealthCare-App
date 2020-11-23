@@ -1,18 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View, Image} from 'react-native';
-import {fonts, colors} from '../../../utils';
-import {DummyNews1} from '../../../assets';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {colors, fonts} from '../../../utils';
 
-const News = () => {
+const News = ({title, date, image}) => {
   return (
     <View style={styles.wrapper}>
       <View style={styles.wrapperText}>
-        <Text style={styles.title}>
-          Is it safe to stay at home during coronavirus?
-        </Text>
-        <Text style={styles.day}>Today</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.day}>{date}</Text>
       </View>
-      <Image source={DummyNews1} style={styles.dummyPicture} />
+      <Image source={{uri: image}} style={styles.wrapperPicture} />
     </View>
   );
 };
@@ -43,7 +40,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.text.disabled,
   },
-  dummyPicture: {
+  wrapperPicture: {
     width: 80,
     height: 60,
     borderRadius: 10,

@@ -4,15 +4,15 @@ import {colors, fonts} from '../../../utils';
 import {DummyDoctor5} from '../../../assets';
 import {Button} from '../../atoms';
 
-const HProfile = ({onPress}) => {
+const HProfile = ({onPress, name, desc, photo}) => {
   return (
     <View style={styles.container}>
       <Button type="icon-only" icon="back-light" onPress={onPress} />
       <View style={styles.wrapper}>
-        <Text style={styles.name}>Lana Rhoades</Text>
-        <Text style={styles.desc}>Dokter Anak</Text>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.desc}>{desc}</Text>
       </View>
-      <Image source={DummyDoctor5} style={styles.avatar} />
+      <Image source={photo} style={styles.avatar} />
     </View>
   );
 };
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 46,
     height: 46,
+    borderRadius: 46 / 2,
   },
   name: {
     fontFamily: fonts.primary[600],

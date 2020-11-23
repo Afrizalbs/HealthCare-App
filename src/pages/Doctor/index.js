@@ -1,19 +1,78 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {Profile, Categoris, TopRated, News} from '../../component';
-import {colors, fonts, getData} from '../../utils';
-import {
-  JSONCategoryDoctor,
-  DummyDoctor1,
-  DummyDoctor2,
-  DummyDoctor3,
-} from '../../assets';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Categoris, News, Profile, TopRated} from '../../component';
+import {FireBase} from '../../config';
+import {colors, fonts, getData, showErrorMessage} from '../../utils';
 
 export default function Doctor({navigation}) {
   useEffect(() => {
     getData('user').then((result) => {
       console.log('data user: ', result);
     });
+  }, []);
+
+  const [news, setNews] = useState([]);
+  const [categoryDoctor, setCategoryDoctor] = useState([]);
+  const [topRatedDoctor, setTopRatedDoctor] = useState([]);
+  useEffect(() => {
+    // get data news
+    FireBase.database()
+      .ref('news/')
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          const data = res.val();
+          const filterData = data.filter((el) => el !== null);
+
+          console.log('data news filter: ', filterData);
+          setNews(filterData);
+        }
+      })
+      .catch((error) => {
+        showErrorMessage(error.message);
+      });
+
+    // get data kategori doctor
+    FireBase.database()
+      .ref('category_doctor/')
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          const data = res.val();
+          const filterData = data.filter((el) => el !== null);
+
+          console.log('data category filter: ', filterData);
+          setCategoryDoctor(res.val());
+        }
+      })
+      .catch((error) => {
+        showErrorMessage(error.message);
+      });
+
+    // get data top rated doctor
+    FireBase.database()
+      .ref('doctors/')
+      .orderByChild('rate')
+      .limitToLast(3)
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          //  merubah data object dari firebase menjadi array
+          const oldData = res.val();
+          const data = [];
+          Object.keys(oldData).map((key) => {
+            data.push({
+              id: key,
+              data: oldData[key],
+            });
+          });
+          console.log('data top rated hasil parse: ', data);
+          setTopRatedDoctor(data);
+        }
+      })
+      .catch((error) => {
+        showErrorMessage(error.message);
+      });
   }, []);
   return (
     <View style={styles.page}>
@@ -32,12 +91,12 @@ export default function Doctor({navigation}) {
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View style={styles.category}>
                 <View style={styles.gap(32)} />
-                {JSONCategoryDoctor.data.map((listDoctorCategory) => {
+                {categoryDoctor.map((item) => {
                   return (
                     <Categoris
-                      key={listDoctorCategory.id}
-                      category={listDoctorCategory.category}
-                      onPress={() => navigation.navigate('ListDoctor')}
+                      key={item.id}
+                      category={item.category}
+                      onPress={() => navigation.navigate('ListDoctor', item)}
                     />
                   );
                 })}
@@ -49,30 +108,32 @@ export default function Doctor({navigation}) {
           <View style={styles.wrapperSection}>
             <Text style={styles.label2}>Top Rated Doctor</Text>
             <View style={styles.space(16)} />
-            <TopRated
-              name="Alex Rachel"
-              desc="Pedriactician"
-              profilePicture={DummyDoctor1}
-              onPress={() => navigation.navigate('DoctorProfile')}
-            />
-            <TopRated
-              name="Sunny Frank"
-              desc="Dentist"
-              profilePicture={DummyDoctor2}
-              onPress={() => navigation.navigate('DoctorProfile')}
-            />
-            <TopRated
-              name="Naomi Swan"
-              desc="Chiropractic"
-              profilePicture={DummyDoctor3}
-              onPress={() => navigation.navigate('DoctorProfile')}
-            />
+            {topRatedDoctor.map((doctor) => {
+              return (
+                <TopRated
+                  key={doctor.id}
+                  name={doctor.data.fullName}
+                  desc={doctor.data.profession}
+                  profilePicture={{uri: doctor.data.photo}}
+                  onPress={() => navigation.navigate('DoctorProfile', doctor)}
+                />
+              );
+            })}
+
             <View style={styles.space(20)} />
-            <Text style={styles.label2}>Today News</Text>
+            <Text style={styles.label2}>Hot News</Text>
           </View>
-          <News />
-          <News />
-          <News />
+          {news.map((item) => {
+            return (
+              <News
+                key={item.id}
+                title={item.title}
+                date={item.date}
+                image={item.image}
+              />
+            );
+          })}
+
           <View style={styles.space(15)} />
         </ScrollView>
       </View>
