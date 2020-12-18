@@ -1,42 +1,63 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {List} from '../../component';
-import {colors, fonts} from '../../utils';
-import {DummyDoctor1, DummyDoctor2, DummyDoctor3} from '../../assets';
+import {FireBase} from '../../config';
+import {colors, fonts, getData} from '../../utils';
 
 const Messages = ({navigation}) => {
-  const [doctors] = useState([
-    {
-      id: 1,
-      imgProfile: DummyDoctor1,
-      doctorName: 'Nikita Marzani',
-      description: 'Baik ibu, terima kasih banyak atas wakt...',
-    },
-    {
-      id: 2,
-      imgProfile: DummyDoctor2,
-      doctorName: 'Zulfikar Pradana',
-      description: 'Oh tentu saja tidak karena jeruk it...',
-    },
-    {
-      id: 3,
-      imgProfile: DummyDoctor3,
-      doctorName: 'Monique Alexandre',
-      description: 'Oke menurut bu dokter bagaimana unt...',
-    },
-  ]);
+  const [user, setUser] = useState({});
+  const [lastChat, setLastChat] = useState([]);
+
+  useEffect(() => {
+    getDataFromLocal();
+
+    const rootDB = FireBase.database().ref();
+    const urlLastChat = `messages/${user.uid}/`;
+    const messagesDB = rootDB.child(urlLastChat);
+    messagesDB.on('value', async (snapshot) => {
+      if (snapshot.val()) {
+        const oldData = snapshot.val();
+        const data = [];
+
+        const promises = await Object.keys(oldData).map(async (key) => {
+          const urlUIDdoctor = `doctors/${oldData[key].uidPartner}`;
+          const detailDoctor = await rootDB.child(urlUIDdoctor).once('value');
+          // console.log('data doctor: ', detailDoctor.val());
+          data.push({
+            id: key,
+            doctor: detailDoctor.val(),
+            ...oldData[key],
+          });
+        });
+        await Promise.all(promises);
+        console.log('data lastchat array: ', data);
+        setLastChat(data);
+      }
+    });
+  }, [user.uid]);
+
+  const getDataFromLocal = () => {
+    // mengambil data user dari local storage ⬇⬇⬇
+    getData('user').then((res) => {
+      setUser(res);
+    });
+  };
   return (
     <View style={styles.page}>
       <View style={styles.content}>
         <Text style={styles.title}>Messages</Text>
-        {doctors.map((chatKonsultasi) => {
+        {lastChat.map((chat) => {
+          const dataDoctor = {
+            id: chat.doctor.uid,
+            data: chat.doctor,
+          };
           return (
             <List
-              key={chatKonsultasi.id}
-              imgProfile={chatKonsultasi.imgProfile}
-              doctorName={chatKonsultasi.doctorName}
-              description={chatKonsultasi.description}
-              onPress={() => navigation.navigate('Chatting')}
+              key={chat.id}
+              imgProfile={{uri: chat.doctor.photo}}
+              doctorName={chat.doctor.fullName}
+              description={chat.lastContentChat}
+              onPress={() => navigation.navigate('Chatting', dataDoctor)}
             />
           );
         })}

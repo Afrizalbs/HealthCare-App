@@ -70,16 +70,33 @@ const Chatting = ({navigation, route}) => {
       chatContent: chatContent,
     };
 
+    const chatID = `${user.uid}_${dataDoctor.data.uid}`;
+    const urlChattingFirebase = `chatting/${chatID}/allChat/${setDateChat(
+      today,
+    )}`;
+    const urlMessageUser = `messages/${user.uid}/${chatID}`;
+    const urlMessageDoctor = `messages/${dataDoctor.data.uid}/${chatID}`;
+    const dataLastChatForUser = {
+      lastContentChat: chatContent,
+      lastTimeChat: today.getTime(),
+      uidPartner: dataDoctor.data.uid,
+    };
+    const dataLastChatForDoctor = {
+      lastContentChat: chatContent,
+      lastTimeChat: today.getTime(),
+      uidPartner: user.uid,
+    };
+
     // kirim data ke firebase
     FireBase.database()
-      .ref(
-        `chatting/${user.uid}_${dataDoctor.data.uid}/allChat/${setDateChat(
-          today,
-        )}`,
-      )
+      .ref(urlChattingFirebase)
       .push(data)
       .then(() => {
         setChatContent('');
+        // set last chat dari user ke firebase ⬇⬇⬇
+        FireBase.database().ref(urlMessageUser).set(dataLastChatForUser);
+        // set last chat dari doctor ke firebase ⬇⬇⬇
+        FireBase.database().ref(urlMessageDoctor).set(dataLastChatForDoctor);
       })
       .catch((err) => {
         showErrorMessage(err.message);
