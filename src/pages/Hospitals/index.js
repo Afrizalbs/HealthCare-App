@@ -1,15 +1,30 @@
-import React from 'react';
-import {StyleSheet, Text, View, ImageBackground} from 'react-native';
-import {
-  IlHospitalBG,
-  DummyHospital1,
-  DummyHospital3,
-  DummyHospital2,
-} from '../../assets';
-import {fonts, colors} from '../../utils';
+import React, {useEffect, useState} from 'react';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {IlHospitalBG} from '../../assets';
 import {ListHospital} from '../../component';
+import {FireBase} from '../../config';
+import {colors, fonts} from '../../utils';
 
-export default function Hospitals() {
+const Hospitals = () => {
+  const [hospital, setHospital] = useState([]);
+
+  useEffect(() => {
+    getHospital();
+  }, []);
+
+  const getHospital = () => {
+    FireBase.database()
+      .ref('hospital/')
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          const data = res.val();
+          const filterData = data.filter((el) => el !== null);
+          setHospital(filterData);
+        }
+      });
+  };
+
   return (
     <View style={styles.page}>
       <ImageBackground source={IlHospitalBG} style={styles.background}>
@@ -17,28 +32,22 @@ export default function Hospitals() {
         <Text style={styles.text}>3 Available</Text>
       </ImageBackground>
       <View style={styles.content}>
-        <ListHospital
-          title="Rumah Sakit
-          Citra Bunga Merdeka"
-          address="Jln. Surya Sejahtera 20"
-          img={DummyHospital1}
-        />
-        <ListHospital
-          title="Rumah Sakit Anak 
-          Happy Family & Kids"
-          address="Jln. mawar 21"
-          img={DummyHospital2}
-        />
-        <ListHospital
-          title="Rumah Sakit Jiwa 
-          Tingkatan Paling Atas"
-          address="Jln. diponegoro no.521"
-          img={DummyHospital3}
-        />
+        {hospital.map((item) => {
+          return (
+            <ListHospital
+              key={item.id}
+              title={item.title}
+              address={item.address}
+              img={item.image}
+            />
+          );
+        })}
       </View>
     </View>
   );
-}
+};
+
+export default Hospitals;
 
 const styles = StyleSheet.create({
   page: {

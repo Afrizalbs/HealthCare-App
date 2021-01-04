@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {Header, List} from '../../component';
 import {FireBase} from '../../config';
 
@@ -17,7 +17,6 @@ const ListDoctor = ({navigation, route}) => {
       .equalTo(category)
       .once('value')
       .then((res) => {
-        console.log('data categori doctor: ', res.val());
         if (res.val()) {
           const oldData = res.val();
           const data = [];
@@ -27,7 +26,6 @@ const ListDoctor = ({navigation, route}) => {
               data: oldData[item],
             });
           });
-          console.log('data category hasil parse: ', data);
           setListDoctor(data);
         }
       });
@@ -35,6 +33,7 @@ const ListDoctor = ({navigation, route}) => {
 
   return (
     <View style={styles.page}>
+      <StatusBar backgroundColor="#112340" barStyle="light-content" />
       <Header
         title={`pilih ${itemCategory.category}`}
         type="dark"

@@ -9,7 +9,7 @@ const Splashscreen = ({navigation}) => {
     const session = FireBase.auth().onAuthStateChanged((user) => {
       setTimeout(() => {
         if (user) {
-          console.log(user);
+          // console.log(user);
           navigation.replace('MainApp');
         } else {
           navigation.replace('GetStarted');

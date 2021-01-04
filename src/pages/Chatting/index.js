@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {BubbleChat, Header, InputChat} from '../../component';
 import {FireBase} from '../../config';
@@ -105,6 +105,7 @@ const Chatting = ({navigation, route}) => {
 
   return (
     <View style={styles.page}>
+      <StatusBar backgroundColor="#112340" barStyle="light-content" />
       <Header
         type="HeaderProfile"
         name={dataDoctor.data.fullName}
