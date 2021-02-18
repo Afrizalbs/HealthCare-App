@@ -1,23 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {ILNullProfile} from '../../../assets';
-import {colors, fonts, getData} from '../../../utils';
+import {colors, fonts} from '../../../utils';
 
-const Profile = ({onPress}) => {
-  const [profile, setProfile] = useState({
-    photo: ILNullProfile,
-    fullName: '',
-    pekerjaan: '',
-  });
-  useEffect(() => {
-    getData('user').then((response) => {
-      // console.log('data user: ', response);
-      const data = response;
-      data.photo = {uri: response.photo};
-      setProfile(response);
-    });
-  }, []);
+const Profile = ({onPress, profile}) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <Image source={profile.photo} style={styles.avatar} />
