@@ -141,6 +141,7 @@ const Chatting = ({navigation, route}) => {
           value={chatContent}
           onChangeText={(value) => setChatContent(value)}
           onButtonPress={sendChat}
+          placeholder={`Tulis pesan untuk ${dataDoctor.data.fullName}`}
         />
       </View>
     </View>
