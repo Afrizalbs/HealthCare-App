@@ -1,37 +1,30 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
+import {ILNullProfile} from '../../assets';
 import {Categoris, News, Profile, TopRated} from '../../component';
 import {FireBase} from '../../config';
 import {colors, fonts, getData, showErrorMessage} from '../../utils';
 
-export default function Doctor({navigation}) {
-  useEffect(() => {
-    getData('user').then((result) => {
-      console.log('data user: ', result);
-    });
-  }, []);
-
+const Doctor = ({navigation}) => {
   const [news, setNews] = useState([]);
   const [categoryDoctor, setCategoryDoctor] = useState([]);
   const [topRatedDoctor, setTopRatedDoctor] = useState([]);
+  const [profile, setProfile] = useState({
+    photo: ILNullProfile,
+    fullName: '',
+    pekerjaan: '',
+  });
+
   useEffect(() => {
-    // get data news
-    FireBase.database()
-      .ref('news/')
-      .once('value')
-      .then((res) => {
-        if (res.val()) {
-          const data = res.val();
-          const filterData = data.filter((el) => el !== null);
+    getCategoryDoctor();
+    getTopRatedDoctor();
+    getNews();
+    navigation.addListener('focus', () => {
+      getUserData();
+    });
+  }, [navigation]);
 
-          console.log('data news filter: ', filterData);
-          setNews(filterData);
-        }
-      })
-      .catch((error) => {
-        showErrorMessage(error.message);
-      });
-
+  const getCategoryDoctor = () => {
     // get data kategori doctor
     FireBase.database()
       .ref('category_doctor/')
@@ -41,14 +34,15 @@ export default function Doctor({navigation}) {
           const data = res.val();
           const filterData = data.filter((el) => el !== null);
 
-          console.log('data category filter: ', filterData);
-          setCategoryDoctor(res.val());
+          setCategoryDoctor(filterData);
         }
       })
       .catch((error) => {
         showErrorMessage(error.message);
       });
+  };
 
+  const getTopRatedDoctor = () => {
     // get data top rated doctor
     FireBase.database()
       .ref('doctors/')
@@ -66,21 +60,52 @@ export default function Doctor({navigation}) {
               data: oldData[key],
             });
           });
-          console.log('data top rated hasil parse: ', data);
           setTopRatedDoctor(data);
         }
       })
       .catch((error) => {
         showErrorMessage(error.message);
       });
-  }, []);
+  };
+
+  const getNews = () => {
+    // get data news
+    FireBase.database()
+      .ref('news/')
+      .once('value')
+      .then((res) => {
+        if (res.val()) {
+          const data = res.val();
+          const filterData = data.filter((el) => el !== null);
+
+          setNews(filterData);
+        }
+      })
+      .catch((error) => {
+        showErrorMessage(error.message);
+      });
+  };
+
+  const getUserData = () => {
+    getData('user').then((res) => {
+      // console.log('get data user: ', res);
+      const data = res;
+      data.photo = res?.photo?.length > 1 ? {uri: res.photo} : ILNullProfile;
+      setProfile(res);
+    });
+  };
+
   return (
     <View style={styles.page}>
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       <View style={styles.content}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.space(30)} />
           <View style={styles.wrapperSection}>
-            <Profile onPress={() => navigation.navigate('UserProfile')} />
+            <Profile
+              profile={profile}
+              onPress={() => navigation.navigate('UserProfile', profile)}
+            />
             <View style={styles.space(30)} />
             <Text style={styles.label}>
               Mau konsultasi dengan siapa hari ini?
@@ -139,7 +164,9 @@ export default function Doctor({navigation}) {
       </View>
     </View>
   );
-}
+};
+
+export default Doctor;
 
 const styles = StyleSheet.create({
   page: {
