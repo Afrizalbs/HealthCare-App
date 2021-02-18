@@ -1,31 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
-import {ILNullProfile} from '../../assets';
-import {Header, MainProfile, List} from '../../component';
+import {Header, List, MainProfile} from '../../component';
 import {FireBase} from '../../config';
-import {colors, getData} from '../../utils';
+import {colors} from '../../utils';
 
-const UserProfile = ({navigation}) => {
-  const [profile, setProfile] = useState({
-    fullName: '',
-    pekerjaan: '',
-    photo: ILNullProfile,
-  });
-  useEffect(() => {
-    getData('user').then((response) => {
-      const data = response;
-      data.photo = {uri: response.photo};
-      setProfile(data);
-    });
-  }, []);
+const UserProfile = ({navigation, route}) => {
+  const profile = route.params;
 
   const signOut = () => {
     FireBase.auth()
       .signOut()
       .then(() => {
-        console.log('sign out berhasil');
-        navigation.replace('GetStarted');
+        navigation.reset({index: 0, routes: [{name: 'GetStarted'}]});
       })
       .catch((error) => {
         showMessage({
@@ -59,20 +46,19 @@ const UserProfile = ({navigation}) => {
       />
       <List
         doctorName="Language"
-        description="Last updated yesterday"
+        description="Ganti bahasa"
         type="list-doctor"
         icon="language"
       />
       <List
         doctorName="Give us rate"
-        description="Last updated yesterday"
+        description="Beri kami rating"
         type="list-doctor"
         icon="give-rate"
       />
       <List
         doctorName="Sign Out"
-        description="Last updated yesterday"
-        type="list-doctor"
+        description="Ketuk untuk keluar akun"
         icon="help"
         onPress={signOut}
       />

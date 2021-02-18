@@ -1,12 +1,10 @@
-import React, {useState} from 'react';
-import {useEffect} from 'react';
-import {StyleSheet, View, ScrollView} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
-import {Header, MainProfile, Input, Button} from '../../component';
-import FireBase from '../../config/FireBase';
-import {colors, getData, storeData} from '../../utils';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import {ILNullProfile} from '../../assets';
+import {Button, Header, Input, MainProfile} from '../../component';
+import {FireBase} from '../../config';
+import {getData, showErrorMessage, storeData} from '../../utils';
 
 const UpdateProfile = ({navigation}) => {
   const [profile, setProfile] = useState({
@@ -21,32 +19,59 @@ const UpdateProfile = ({navigation}) => {
   useEffect(() => {
     getData('user').then((response) => {
       const data = response;
-      setPhoto({uri: response.photo});
+      data.photoForDB =
+        response?.photo?.length > 1 ? response.photo : ILNullProfile;
+      const tempPhoto =
+        response?.photo?.length > 1 ? {uri: response.photo} : ILNullProfile;
+      setPhoto(tempPhoto);
       setProfile(data);
     });
   }, []);
 
-  const getImage = () => {
-    // Open Image Library:
-    ImagePicker.launchImageLibrary(
-      {quality: 0.5, maxHeight: 300, maxWidth: 300},
-      (response) => {
-        // Same code as in above section!
-        console.log('response: ', response);
-        if (response.didCancel || response.error) {
-          showMessage({
-            message: 'Upss, Anda tidak jadi mengganti photo',
-            type: 'default',
-            backgroundColor: colors.error, // background color
-            color: 'white', // text color
+  const update = () => {
+    if (password.length > 0) {
+      if (password.length < 6) {
+        showErrorMessage('Ups Pasword kurang dari 6 karakter!');
+      } else {
+        // update profile dan password
+        updatePassword();
+        updateProfileData();
+      }
+    } else {
+      // hanya update profile
+      updateProfileData();
+    }
+  };
+
+  const updatePassword = () => {
+    FireBase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        user.updatePassword(password).catch((error) => {
+          showErrorMessage(error.message);
+        });
+      }
+    });
+  };
+
+  const updateProfileData = () => {
+    // console.log('update profile: ', profile);
+    const data = profile;
+    data.photo = photoForDB;
+    FireBase.database()
+      .ref(`users/${profile.uid}/`)
+      .update(data)
+      .then(() => {
+        storeData('user', data)
+          .then(() => {
+            navigation.replace('MainApp');
+          })
+          .catch(() => {
+            showErrorMessage('Terjadi Masalah');
           });
-        } else {
-          const source = {uri: response.uri};
-          setPhotoForDB(`data:${response.type};base64, ${response.data}`); //mengambil data gambar untuk db
-          setPhoto(source);
-        }
-      },
-    );
+      })
+      .catch((error) => {
+        showErrorMessage(error.message);
+      });
   };
 
   const changeText = (key, value) => {
@@ -56,66 +81,23 @@ const UpdateProfile = ({navigation}) => {
     });
   };
 
-  const updatePassword = () => {
-    FireBase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        user.updatePassword(password).catch((error) => {
-          showMessage({
-            message: error.message,
-            type: 'default',
-            backgroundColor: colors.error,
-            color: 'white',
-          });
-        });
-      }
-    });
+  const getImage = () => {
+    // Open Image Library:
+    ImagePicker.launchImageLibrary(
+      {quality: 0.5, maxHeight: 300, maxWidth: 300},
+      (response) => {
+        // Same code as in above section!
+        if (response.didCancel || response.error) {
+          showErrorMessage('oops, Anda tidak jadi mengganti photo');
+        } else {
+          const source = {uri: response.uri};
+          setPhotoForDB(`data:${response.type};base64, ${response.data}`); //mengambil data gambar untuk db
+          setPhoto(source);
+        }
+      },
+    );
   };
 
-  const updateProfileData = () => {
-    console.log('update profile: ', profile);
-    const data = profile;
-    data.photo = photoForDB;
-
-    FireBase.database()
-      .ref(`users/${profile.uid}/`)
-      .update(data)
-      .then(() => {
-        console.log('success: ', data);
-        storeData('user', data);
-      })
-      .catch((error) => {
-        showMessage({
-          message: error.message,
-          type: 'default',
-          backgroundColor: colors.error,
-          color: 'white',
-        });
-      });
-  };
-
-  const update = () => {
-    console.log('new password: ', password);
-
-    if (password.length > 0) {
-      if (password.length < 6) {
-        showMessage({
-          message: 'Ups Pasword kurang dari 6 karakter!',
-          type: 'default',
-          backgroundColor: colors.error,
-          color: 'white',
-        });
-      } else {
-        // update profile dan password
-        updatePassword();
-        updateProfileData();
-        navigation.replace('MainApp');
-      }
-    } else {
-      // hanya update profile
-      updateProfileData();
-      navigation.replace('MainApp');
-    }
-  };
   return (
     <View style={styles.page}>
       <Header title="Edit Profile" onPress={() => navigation.goBack()} />

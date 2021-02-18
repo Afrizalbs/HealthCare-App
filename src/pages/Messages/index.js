@@ -30,7 +30,7 @@ const Messages = ({navigation}) => {
           });
         });
         await Promise.all(promises);
-        console.log('data lastchat array: ', data);
+        // console.log('data lastchat array: ', data);
         setLastChat(data);
       }
     });
