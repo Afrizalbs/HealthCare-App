@@ -6,6 +6,9 @@ import ILDocObat from './icon_dokter_obat.svg';
 import ILDocUmum from './icon_dokter_umum.svg';
 import ILPsikiater from './icon_psikiater.svg';
 import IlHospitalBG from './bgHospital.png';
+import ILChatting from './illustration-chatting.svg';
+import ILDoctor from './illustration-doctor.svg';
+import ILReview from './illustrtion-review.svg';
 
 export {
   ILLogo,
@@ -16,4 +19,7 @@ export {
   ILDocObat,
   ILPsikiater,
   IlHospitalBG,
+  ILDoctor,
+  ILReview,
+  ILChatting,
 };
