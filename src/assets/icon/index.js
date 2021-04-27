@@ -17,6 +17,7 @@ import IconEditProfile from './edit_profile.svg';
 import IconLanguage from './language.svg';
 import IconGiveUsRate from './rate.svg';
 import IconHelp from './help.svg';
+import IconEastNext from './east_next.svg';
 
 export {
   IconBack,
@@ -38,4 +39,5 @@ export {
   IconLanguage,
   IconHelp,
   IconGiveUsRate,
+  IconEastNext,
 };

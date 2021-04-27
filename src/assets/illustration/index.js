@@ -6,9 +6,9 @@ import ILDocObat from './icon_dokter_obat.svg';
 import ILDocUmum from './icon_dokter_umum.svg';
 import ILPsikiater from './icon_psikiater.svg';
 import IlHospitalBG from './bgHospital.png';
-import ILChatting from './illustration-chatting.svg';
-import ILDoctor from './illustration-doctor.svg';
-import ILReview from './illustrtion-review.svg';
+import ILChatting from './undraw_Chatting_re_j55r.svg';
+import ILDoctor from './undraw_doctors_hwty.svg';
+import ILReview from './undraw_reviews_lp8w.svg';
 
 export {
   ILLogo,
