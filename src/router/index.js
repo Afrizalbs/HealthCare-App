@@ -15,6 +15,7 @@ import {
   UserProfile,
   UpdateProfile,
   DoctorProfile,
+  OnboardingScreen,
 } from '../pages';
 import {BottomNavigator} from '../component';
 
@@ -87,6 +88,11 @@ const Router = () => {
       <Stack.Screen
         name="DoctorProfile"
         component={DoctorProfile}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="OnboardingScreen"
+        component={OnboardingScreen}
         options={{headerShown: false}}
       />
     </Stack.Navigator>
