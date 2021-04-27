@@ -12,7 +12,7 @@ const Splashscreen = ({navigation}) => {
           // console.log(user);
           navigation.replace('MainApp');
         } else {
-          navigation.replace('GetStarted');
+          navigation.replace('OnboardingScreen');
         }
       }, 3000);
     });
