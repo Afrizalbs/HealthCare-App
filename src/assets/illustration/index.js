@@ -9,6 +9,7 @@ import IlHospitalBG from './bgHospital.png';
 import ILChatting from './undraw_Chatting_re_j55r.svg';
 import ILDoctor from './undraw_doctors_hwty.svg';
 import ILReview from './undraw_reviews_lp8w.svg';
+import ILStartChat from './illustrarion-start-chat.png';
 
 export {
   ILLogo,
@@ -22,4 +23,5 @@ export {
   ILDoctor,
   ILReview,
   ILChatting,
+  ILStartChat,
 };

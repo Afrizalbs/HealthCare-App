@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
+import {ILStartChat} from '../../assets';
 import {List} from '../../component';
 import {FireBase} from '../../config';
 import {colors, fonts, getData} from '../../utils';
@@ -42,28 +43,42 @@ const Messages = ({navigation}) => {
       setUser(res);
     });
   };
-  return (
-    <View style={styles.page}>
-      <View style={styles.content}>
-        <Text style={styles.title}>Messages</Text>
-        {lastChat.map((chat) => {
-          const dataDoctor = {
-            id: chat.doctor.uid,
-            data: chat.doctor,
-          };
-          return (
-            <List
-              key={chat.id}
-              imgProfile={{uri: chat.doctor.photo}}
-              doctorName={chat.doctor.fullName}
-              description={chat.lastContentChat}
-              onPress={() => navigation.navigate('Chatting', dataDoctor)}
-            />
-          );
-        })}
+  if (lastChat.length === 0) {
+    return (
+      <View style={styles.page}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Messages</Text>
+          <View style={styles.wrapper}>
+            <Image source={ILStartChat} style={styles.bgPage} />
+            <Text style={styles.emptyChat}>Chat Dokter yuk!</Text>
+          </View>
+        </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={styles.page}>
+        <View style={styles.content}>
+          <Text style={styles.title}>Messages</Text>
+          {lastChat.map((chat) => {
+            const dataDoctor = {
+              id: chat.doctor.uid,
+              data: chat.doctor,
+            };
+            return (
+              <List
+                key={chat.id}
+                imgProfile={{uri: chat.doctor.photo}}
+                doctorName={chat.doctor.fullName}
+                description={chat.lastContentChat}
+                onPress={() => navigation.navigate('Chatting', dataDoctor)}
+              />
+            );
+          })}
+        </View>
+      </View>
+    );
+  }
 };
 export default Messages;
 const styles = StyleSheet.create({
@@ -81,5 +96,20 @@ const styles = StyleSheet.create({
     color: colors.secondary,
     marginLeft: 16,
     marginBottom: 16,
+  },
+  wrapper: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emptyChat: {
+    fontFamily: fonts.primary[300],
+    fontSize: 14,
+    color: colors.text.disabled,
+    textAlign: 'center',
+  },
+  bgPage: {
+    width: 210,
+    height: 210,
   },
 });
