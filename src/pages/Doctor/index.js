@@ -61,6 +61,7 @@ const Doctor = ({navigation}) => {
             });
           });
           setTopRatedDoctor(data);
+          // console.log('data top rated: ', data);
         }
       })
       .catch((error) => {
@@ -131,7 +132,7 @@ const Doctor = ({navigation}) => {
           </View>
           <View style={styles.space(30)} />
           <View style={styles.wrapperSection}>
-            <Text style={styles.label2}>Top Rated Doctor</Text>
+            <Text style={styles.label2}>Top Rate Dokter</Text>
             <View style={styles.space(16)} />
             {topRatedDoctor.map((doctor) => {
               return (
