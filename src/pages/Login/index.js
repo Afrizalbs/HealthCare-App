@@ -21,16 +21,22 @@ const Login = ({navigation}) => {
       .signInWithEmailAndPassword(form.email, form.password)
       .then((success) => {
         dispatch({type: 'SET_LOADING', value: false});
-
-        FireBase.database()
-          .ref(`users/${success.user.uid}/`)
-          .once('value')
-          .then((resDB) => {
-            if (resDB.val()) {
-              storeData('user', resDB.val());
-              navigation.replace('MainApp');
-            }
-          });
+        // console.log('sukses: ', success);
+        if (success.user.emailVerified === true) {
+          FireBase.database()
+            .ref(`users/${success.user.uid}/`)
+            .once('value')
+            .then((resDB) => {
+              if (resDB.val()) {
+                storeData('user', resDB.val());
+                navigation.replace('MainApp');
+              }
+            });
+        } else {
+          showErrorMessage(
+            'Verifikasi email anda untuk dapat masuk kedalam aplikasi!',
+          );
+        }
       })
       .catch((error) => {
         dispatch({type: 'SET_LOADING', value: false});
@@ -58,8 +64,8 @@ const Login = ({navigation}) => {
             value={form.password}
             onChangeText={(value) => setForm('password', value)}
           />
-          <View style={styles.space(10)} />
-          <Link title="Forgot My Password" fontsize={12} />
+          {/* <View style={styles.space(10)} />
+          <Link title="Forgot My Password" fontsize={12} /> */}
           <View style={styles.space(40)} />
           <Button title="Sign In" onPress={login} />
           <View style={styles.space(30)} />
