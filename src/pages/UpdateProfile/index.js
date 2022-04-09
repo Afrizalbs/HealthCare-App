@@ -10,12 +10,17 @@ const UpdateProfile = ({navigation}) => {
   const [profile, setProfile] = useState({
     fullName: '',
     pekerjaan: '',
+    umur: '',
+    tinggiBadan: '',
+    beratBadan: '',
     email: '',
+    photoForDB: '',
   });
   const [password, setPasword] = useState('');
-  const [photoForDB, setPhotoForDB] = useState('');
+  // const [photoForDB, setPhotoForDB] = useState('');
   const [photo, setPhoto] = useState(ILNullProfile);
 
+  // handle foto profil
   useEffect(() => {
     getData('user').then((response) => {
       const data = response;
@@ -28,6 +33,7 @@ const UpdateProfile = ({navigation}) => {
     });
   }, []);
 
+  // update profile
   const update = () => {
     if (password.length > 0) {
       if (password.length < 6) {
@@ -38,7 +44,6 @@ const UpdateProfile = ({navigation}) => {
         updateProfileData();
       }
     } else {
-      // hanya update profile
       updateProfileData();
     }
   };
@@ -56,7 +61,7 @@ const UpdateProfile = ({navigation}) => {
   const updateProfileData = () => {
     // console.log('update profile: ', profile);
     const data = profile;
-    data.photo = photoForDB;
+    data.photo = profile.photoForDB;
     FireBase.database()
       .ref(`users/${profile.uid}/`)
       .update(data)
@@ -84,14 +89,20 @@ const UpdateProfile = ({navigation}) => {
   const getImage = () => {
     // Open Image Library:
     ImagePicker.launchImageLibrary(
-      {quality: 0.5, maxHeight: 300, maxWidth: 300},
+      {quality: 1, maxHeight: 300, maxWidth: 300},
       (response) => {
         // Same code as in above section!
         if (response.didCancel || response.error) {
           showErrorMessage('oops, Anda tidak jadi mengganti photo');
+          // console.log('error: ', response.error);
         } else {
           const source = {uri: response.uri};
-          setPhotoForDB(`data:${response.type};base64, ${response.data}`); //mengambil data gambar untuk db
+          //mengambil data gambar untuk db
+          setProfile({
+            ...profile,
+            photoForDB: `data:${response.type};base64, ${response.data}`,
+          });
+          // setPhotoForDB(`data:${response.type};base64, ${response.data}`);
           setPhoto(source);
         }
       },
@@ -121,6 +132,33 @@ const UpdateProfile = ({navigation}) => {
             }}
           />
           <View style={styles.space(24)} />
+          <Input
+            label="Umur (Tahun)"
+            value={profile.umur}
+            keyboardType="numeric"
+            onChangeText={(value) => {
+              changeText('umur', value);
+            }}
+          />
+          <View style={styles.space(24)} />
+          <Input
+            label="Tinggi Badan (cm)"
+            value={profile.tinggiBadan}
+            keyboardType="numeric"
+            onChangeText={(value) => {
+              changeText('tinggiBadan', value);
+            }}
+          />
+          <View style={styles.space(24)} />
+          <Input
+            label="Berat Badan (Kg)"
+            value={profile.beratBadan}
+            keyboardType="numeric"
+            onChangeText={(value) => {
+              changeText('beratBadan', value);
+            }}
+          />
+          <View style={styles.space(24)} />
           <Input label="Email Address" value={profile.email} disable />
           <View style={styles.space(24)} />
           <Input
@@ -131,7 +169,7 @@ const UpdateProfile = ({navigation}) => {
               setPasword(value);
             }}
           />
-          <View style={styles.space(40)} />
+          <View style={styles.space(24)} />
           <Button title="Save Profile" onPress={update} />
         </View>
       </ScrollView>
@@ -148,7 +186,7 @@ const styles = StyleSheet.create({
   },
   content: {
     paddingHorizontal: 40,
-    paddingBottom: 40,
+    paddingBottom: 24,
   },
   space: (x) => ({
     height: x,
