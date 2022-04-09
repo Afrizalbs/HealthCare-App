@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   textWrapper: {
-    maxWidth: 160,
+    maxWidth: 230,
   },
   title: {
     fontFamily: fonts.primary[400],
@@ -43,5 +43,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: colors.text.disabled,
     marginTop: 4,
+    maxHeight: '100%',
   },
 });
