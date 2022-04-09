@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {ILStartChat} from '../../assets';
+import {ILNullProfile, ILStartChat} from '../../assets';
 import {List} from '../../component';
 import {FireBase} from '../../config';
 import {colors, fonts, getData} from '../../utils';
@@ -68,7 +68,11 @@ const Messages = ({navigation}) => {
             return (
               <List
                 key={chat.id}
-                imgProfile={{uri: chat.doctor.photo}}
+                imgProfile={
+                  chat.doctor.photo === undefined
+                    ? ILNullProfile
+                    : {uri: chat.doctor.photo}
+                }
                 doctorName={chat.doctor.fullName}
                 description={chat.lastContentChat}
                 onPress={() => navigation.navigate('Chatting', dataDoctor)}
