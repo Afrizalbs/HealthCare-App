@@ -18,6 +18,8 @@ import IconLanguage from './language.svg';
 import IconGiveUsRate from './rate.svg';
 import IconHelp from './help.svg';
 import IconEastNext from './east_next.svg';
+import IconVerified from './verified.svg';
+import IconLogout from './logout.svg';
 
 export {
   IconBack,
@@ -40,4 +42,6 @@ export {
   IconHelp,
   IconGiveUsRate,
   IconEastNext,
+  IconVerified,
+  IconLogout,
 };
