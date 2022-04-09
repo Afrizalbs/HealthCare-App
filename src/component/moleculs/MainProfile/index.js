@@ -4,7 +4,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {IconDelPhoto} from '../../../assets';
 import {colors, fonts} from '../../../utils';
 
-const MainProfile = ({name, desc, photo, isRemove, onPress}) => {
+const MainProfile = ({name, desc, photo, isRemove, onPress, verified}) => {
   return (
     <View style={styles.container}>
       {!isRemove && (
@@ -25,6 +25,7 @@ const MainProfile = ({name, desc, photo, isRemove, onPress}) => {
         <View>
           <Text style={styles.name}>{name}</Text>
           <Text style={styles.desc}>{desc}</Text>
+          <Text style={styles.descVerified}>{verified}</Text>
         </View>
       )}
     </View>
@@ -65,6 +66,12 @@ const styles = StyleSheet.create({
     fontFamily: fonts.primary[400],
     fontSize: 16,
     color: colors.text.disabled,
+    textAlign: 'center',
+  },
+  descVerified: {
+    fontFamily: fonts.primary[400],
+    fontSize: 16,
+    color: colors.primary,
     textAlign: 'center',
   },
   deletePhoto: {
