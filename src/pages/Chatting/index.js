@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, StatusBar} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
+import {ILNullProfile} from '../../assets';
 import {BubbleChat, Header, InputChat} from '../../component';
 import {FireBase} from '../../config';
 import {
@@ -110,7 +111,11 @@ const Chatting = ({navigation, route}) => {
         type="HeaderProfile"
         name={dataDoctor.data.fullName}
         desc={dataDoctor.data.profession}
-        photo={{uri: dataDoctor.data.photo}}
+        photo={
+          dataDoctor.data.photo === undefined
+            ? ILNullProfile
+            : {uri: dataDoctor.data.photo}
+        }
         onPress={() => navigation.goBack()}
       />
       <View style={styles.content}>
@@ -127,7 +132,13 @@ const Chatting = ({navigation, route}) => {
                       IsUser={IsUser}
                       message={chat.data.chatContent}
                       timeSend={chat.data.chatTime}
-                      photo={IsUser ? null : {uri: dataDoctor.data.photo}}
+                      photo={
+                        IsUser
+                          ? null
+                          : dataDoctor.data.photo === undefined
+                          ? ILNullProfile
+                          : {uri: dataDoctor.data.photo}
+                      }
                     />
                   );
                 })}
