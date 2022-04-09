@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
-import {LogBox} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import {Provider, useSelector} from 'react-redux';
 import {Loading} from './component';
@@ -12,6 +12,7 @@ const MainApp = () => {
   LogBox.ignoreLogs(['Setting a timer']);
   return (
     <>
+      <StatusBar backgroundColor="white" barStyle="dark-content" />
       <NavigationContainer>
         <Router />
       </NavigationContainer>
