@@ -32,8 +32,9 @@ const styles = StyleSheet.create({
   },
   chatWrapper: {
     backgroundColor: colors.primary,
-    padding: 12,
-    maxWidth: '85%',
+    padding: 5,
+    paddingRight: 10,
+    maxWidth: '100%',
     borderRadius: 10,
     borderBottomLeftRadius: 0,
   },
