@@ -22,8 +22,9 @@ const styles = StyleSheet.create({
   },
   chatWrapper: {
     backgroundColor: colors.card.bgDefault,
-    padding: 12,
-    maxWidth: '80%',
+    padding: 5,
+    paddingLeft: 10,
+    maxWidth: '100%',
     borderRadius: 10,
     borderBottomRightRadius: 0,
   },
