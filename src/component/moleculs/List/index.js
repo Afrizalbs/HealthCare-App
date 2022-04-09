@@ -7,6 +7,8 @@ import {
   IconLanguage,
   IconGiveUsRate,
   IconHelp,
+  IconVerified,
+  IconLogout,
 } from '../../../assets';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
@@ -16,13 +18,13 @@ const List = ({imgProfile, doctorName, description, type, onPress, icon}) => {
       return <IconEditProfile />;
     }
     if (icon === 'language') {
-      return <IconLanguage />;
+      return <IconVerified />;
     }
     if (icon === 'give-rate') {
       return <IconGiveUsRate />;
     }
     if (icon === 'help') {
-      return <IconHelp />;
+      return <IconLogout />;
     }
     return <IconEditProfile />;
   };
