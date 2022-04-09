@@ -85,6 +85,7 @@ const OnboardingScreen = ({navigation}) => {
             <ILDoctor height={350} width={300} style={styles.illustration} />
           ),
           title: <Caption text="Konsultasi dengan Profesional" />,
+          subtitle: <Text>tanpa terhalang waktu dan tempat</Text>,
         },
         {
           backgroundColor: colors.text.desc,
@@ -92,6 +93,7 @@ const OnboardingScreen = ({navigation}) => {
             <ILChatting height={350} width={300} style={styles.illustration} />
           ),
           title: <Caption text="Chat dengan Dokter pilihanmu" />,
+          subtitle: <Text>sesuaikan dengan keluhanmu</Text>,
         },
         {
           backgroundColor: colors.card.bgDefault,
@@ -99,6 +101,7 @@ const OnboardingScreen = ({navigation}) => {
             <ILReview height={350} width={300} style={styles.illustration} />
           ),
           title: <Caption text="Beri Feedback untuk aplikasi kami" />,
+          subtitle: <Text>jadikan aplikasi ini lebih baik 🙂</Text>,
         },
       ]}
     />
