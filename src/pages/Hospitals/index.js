@@ -1,5 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {IlHospitalBG} from '../../assets';
 import {ListHospital} from '../../component';
 import {FireBase} from '../../config';
@@ -28,10 +34,10 @@ const Hospitals = () => {
   return (
     <View style={styles.page}>
       <ImageBackground source={IlHospitalBG} style={styles.background}>
-        <Text style={styles.title}>Nearby Hospitals</Text>
-        <Text style={styles.text}>3 Available</Text>
+        <Text style={styles.title}>RS di Semarang</Text>
+        <Text style={styles.text}>3 Tersedia</Text>
       </ImageBackground>
-      <View style={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
         {hospital.map((item) => {
           return (
             <ListHospital
@@ -42,7 +48,7 @@ const Hospitals = () => {
             />
           );
         })}
-      </View>
+      </ScrollView>
     </View>
   );
 };
