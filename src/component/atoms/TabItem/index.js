@@ -12,13 +12,13 @@ import {colors, fonts} from '../../../utils';
 
 const TabItem = ({title, active, onPress, onLongPress}) => {
   const Icon = () => {
-    if (title === 'Doctor') {
+    if (title === 'Home') {
       return active ? <IconDoctorActive /> : <IconDoctorNoActive />;
     }
     if (title === 'Messages') {
       return active ? <IconMessagesActive /> : <IconMessagesNoActive />;
     }
-    if (title === 'Hospitals') {
+    if (title === 'Hospital') {
       return active ? <IconHospitalActive /> : <IconHospitalNoActive />;
     }
     return <IconDoctorNoActive />;
