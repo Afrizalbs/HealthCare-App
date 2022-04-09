@@ -1,12 +1,27 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
+import {StyleSheet, View, Text} from 'react-native';
 import {Header, List, MainProfile} from '../../component';
 import {FireBase} from '../../config';
-import {colors} from '../../utils';
+import {colors, fonts, showErrorMessage, showSuccessMessage} from '../../utils';
 
 const UserProfile = ({navigation, route}) => {
   const profile = route.params;
+  const user = FireBase.auth().currentUser;
+  // console.log('siapa yg login: ', user);
+
+  const sendEmailVerified = () => {
+    FireBase.auth()
+      .currentUser.sendEmailVerification()
+      .then(() => {
+        showSuccessMessage(
+          'Link Verifikasi sudah terkirim, silahkan cek email anda!',
+        );
+      })
+      .catch((err) => {
+        const errorMessage = err.message;
+        showErrorMessage(errorMessage);
+      });
+  };
 
   const signOut = () => {
     FireBase.auth()
@@ -15,12 +30,8 @@ const UserProfile = ({navigation, route}) => {
         navigation.reset({index: 0, routes: [{name: 'GetStarted'}]});
       })
       .catch((error) => {
-        showMessage({
-          message: error.message,
-          type: 'default',
-          backgroundColor: colors.error,
-          color: 'white',
-        });
+        const errorMessage = error.message;
+        showErrorMessage(errorMessage);
       });
   };
 
@@ -31,7 +42,7 @@ const UserProfile = ({navigation, route}) => {
       {profile.fullName.length > 0 && (
         <MainProfile
           name={profile.fullName}
-          desc={profile.pekerjaan}
+          desc={`${profile.umur} thn | ${profile.tinggiBadan} cm | ${profile.beratBadan} kg`}
           photo={profile.photo}
         />
       )}
@@ -44,12 +55,21 @@ const UserProfile = ({navigation, route}) => {
         icon="edit-profile"
         onPress={() => navigation.navigate('UpdateProfile')}
       />
-      <List
-        doctorName="Language"
-        description="Ganti bahasa"
-        type="list-doctor"
-        icon="language"
-      />
+      {user.emailVerified === false && (
+        <View>
+          <List
+            doctorName="Verified User"
+            description="Send link verification"
+            type="list-doctor"
+            icon="language"
+            onPress={sendEmailVerified}
+          />
+          <Text style={styles.warningText}>
+            Segera Verifikasi email agar bisa login aplikasi setiap saat!
+          </Text>
+        </View>
+      )}
+
       <List
         doctorName="Give us rate"
         description="Beri kami rating"
@@ -76,4 +96,13 @@ const styles = StyleSheet.create({
   space: (x) => ({
     height: x,
   }),
+  warningText: {
+    fontSize: 12,
+    fontFamily: fonts.primary[600],
+    color: 'red',
+    paddingHorizontal: 16,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderColor: colors.border.default,
+  },
 });
