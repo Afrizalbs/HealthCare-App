@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
+import {ILNullProfile} from '../../assets';
 import {Header, List} from '../../component';
 import {FireBase} from '../../config';
 
@@ -27,6 +28,7 @@ const ListDoctor = ({navigation, route}) => {
             });
           });
           setListDoctor(data);
+          // console.log('data dokter: ', data);
         }
       });
   };
@@ -44,7 +46,13 @@ const ListDoctor = ({navigation, route}) => {
           return (
             <List
               key={doctor.id}
-              imgProfile={{uri: doctor.data.photo}}
+              imgProfile={
+                doctor.data.photo === undefined
+                  ? ILNullProfile
+                  : {
+                      uri: doctor.data.photo,
+                    }
+              }
               doctorName={doctor.data.fullName}
               description={doctor.data.gender}
               type="list-doctor"
