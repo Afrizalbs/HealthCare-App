@@ -9,7 +9,7 @@ const mainColors = {
   grey4: '#EDEEF0',
   grey5: '#B1B7C2',
   blue1: '#0066CB',
-  black1: 'rgba(0,0,0,0.5)',
+  black1: 'rgba(0,0,0,0.8)',
   red1: '#E06379',
 };
 
